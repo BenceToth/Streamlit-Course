@@ -14,9 +14,12 @@ chart = st.line_chart(last_rows)
 
 # Generate synthetic data
 for i in range(1, 101):
-    new_rows = last_rows[-1,:] + np.random.randn(5,1)
+    # Progress Bar
     status_text.text("%i%% Complete"%i)
     progress_bar.progress(i)
+    # Chart
+    new_rows = last_rows[-1,:] + np.random.randn(5,1)
+    chart.add_rows(new_rows)
     
     time.sleep(0.1)
     
