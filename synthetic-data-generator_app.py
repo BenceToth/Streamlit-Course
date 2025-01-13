@@ -24,3 +24,6 @@ for i in range(1, 101):
     time.sleep(0.1)
     
 progress_bar.empty()
+
+# Add Re-run button
+st.button('Re-run')
