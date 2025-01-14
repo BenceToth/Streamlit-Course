@@ -20,3 +20,14 @@ st.write(df)
 
 # display numpy array
 st.write(np.array([1,2,3,4]))
+
+# Use Magic in Streamlit
+st.write("Magic commands")
+
+df1 = pd.DataFrame({'col1': [1,2,3,4]})
+
+# display df without an explicit command
+df1
+
+x = 10
+x
