@@ -91,3 +91,25 @@ loan = st.slider('What is the amount of loan you are seeking?',
                     min_value=0, max_value=100000, value=50000, step=10000)
 
 st.write('Your desired loan amount is: ', loan)
+
+st.markdown('---')
+
+# Text Input widget
+st.header('st.text_input, st.number_input, st.text_area, st.date_input')
+
+with st.container():
+    name = st.text_input('Please enter your name here')
+    age = st.number_input('What is your age', 
+                        min_value=0, max_value=100, value=25, step=1)
+    describe = st.text_area('Write something about you', height=150)
+    dob = st.date_input('Select your date of birth')
+    
+    submit_button = st.button('Submit here')
+    if submit_button:
+        info = {
+            'Name': name,
+            'Agee': age,
+            'Date of Birth': dob,
+            'About yourself': describe
+        }
+        st.json(info)
