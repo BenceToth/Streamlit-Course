@@ -81,3 +81,13 @@ options = st.multiselect('What kinds of movies do you like? ',
                          ['Comedy', 'Action', 'Sci-fi', 'Drama', 'Romance'])
 
 st.write('You selected ', options)
+
+st.markdown('---')
+
+# Slider widget
+st.header('st.slider')
+
+loan = st.slider('What is the amount of loan you are seeking?', 
+                    min_value=0, max_value=100000, value=50000, step=10000)
+
+st.write('Your desired loan amount is: ', loan)
