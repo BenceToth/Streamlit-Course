@@ -61,3 +61,10 @@ with st.expander('This is my Expander'):
         import streamlit as st
         st.expander('some message')
     """, language='python')
+    
+# Layout: Container
+st.header('st.container')
+
+with st.container():
+    st.write('This text is inside a container')
+    
