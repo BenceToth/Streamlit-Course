@@ -67,4 +67,15 @@ st.header('st.container')
 
 with st.container():
     st.write('This text is inside a container')
-    
+
+# Layout: Empty
+st.header('st.empty')
+
+placeholder = st.empty()
+
+for i in range(10, 0, -1):
+    placeholder.write('This message will disappear in {} seconds'.format(i))
+    time.sleep(1)
+
+placeholder.empty()
+
