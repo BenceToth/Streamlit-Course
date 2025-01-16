@@ -52,3 +52,22 @@ with st.container():
             'Javasript': javascript,
         }
         st.json(tech_dict)
+
+st.markdown('---')
+
+# Radio Button widget
+st.header('st.radio')
+radio_button = st.radio('What is your favorite color?',
+                        ('White', 'Black', 'Pink', 'Red', 'Blue', 'Green'))
+
+st.write('Your favorite color is ', radio_button)
+
+st.markdown('---')
+
+# Select Box widget
+st.header('st.selectbox')
+
+select_box = st.selectbox('What skill you want to learn the most? ',
+                          ('Java', 'Python', 'C++', 'javascript', 'HTML', 'Other'))
+
+st.write('You selected =', select_box)
