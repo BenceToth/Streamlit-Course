@@ -113,3 +113,20 @@ with st.container():
             'About yourself': describe
         }
         st.json(info)
+        
+st.markdown('---')
+
+# Text Input widget
+st.header('st.file_uploader')
+
+uploaded_file = st.file_uploader('Choose a file')
+save_button = st.button('save file')
+
+if save_button:
+    if uploaded_file is not None:
+        with open(os.path.join('./save_folder', uploaded_file.name), mode='wb') as f:
+            f.write(uploaded_file.getbuffer())
+        
+        st.success('File uploaded successfully')   
+    else:
+        st.warning('Please select the file you want to upload') 
