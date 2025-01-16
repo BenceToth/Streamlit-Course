@@ -1,42 +1,40 @@
 import streamlit as st
+from datetime import datetime
 
-st.header('Registration Form')
+with st.form('myform'):
+    st.subheader('Registration Form')
 
-name_container = st.container()
-with name_container:
-    
+    # Name
     name_col1, name_col2, name_col3 = st.columns(3)
-    
-    with name_col1:
-        title = st.selectbox(label='', options=('Mr', 'Mrs', 'Miss'))
-        
-    with name_col2:
-        first_nm = st.text_input('First Name')
-        
-    with name_col3:
-        last_nm = st.text_input('Last Name')
-        
 
-role = st.selectbox('Role', ('Software', 'Sr. Software', 'Technical Lead',
-                             'Manager', 'Sr. Manager', 'Project Manager'))
+    title = name_col1.selectbox(label='', options=('Mr', 'Mrs', 'Miss'))
+    first_nm = name_col2.text_input('First Name')
+    last_nm = name_col3.text_input('Last Name')
 
-dob = st.date_input('Date of Birth', value='1990-01-01')
+    # Role
+    role = st.selectbox('Role', ('Software', 'Sr. Software', 'Technical Lead',
+                                'Manager', 'Sr. Manager', 'Project Manager'))
 
-gender = st.radio('Select Gender', ('Male', 'Female', 'Prefer not to say'))
+    # Date of Birth
+    dob = st.date_input('Date of Birth', 
+                        min_value=datetime(year=1900,month=1,day=1))
 
-age = st.slider('Age', min_value=1, max_value=100, value=30, step=1)
+    # Gender
+    gender = st.radio('Select Gender',
+                      ('Male', 'Female', 'Prefer not to say'))
 
-has_submitted = st.button('Submit')
+    # Age
+    age = st.slider('Age', min_value=1, max_value=100, value=30, step=1)
 
-if has_submitted:
-    st.success('Form submitted successfully')
-    info = {
-        'Name': ' '.join([title, first_nm, last_nm]),
-        'Age': age,
-        'Gender': gender,
-        'Date of Birth': dob,
-        'Role': role 
-    }
-    st.json(info)
-    
-    
+    has_submitted = st.form_submit_button('Submit')
+
+    if has_submitted:
+        st.success('Form submitted successfully')
+        info = {
+            'Name': ' '.join([title, first_nm, last_nm]),
+            'Age': age,
+            'Gender': gender,
+            'Date of Birth': dob,
+            'Role': role 
+        }
+        st.json(info)
