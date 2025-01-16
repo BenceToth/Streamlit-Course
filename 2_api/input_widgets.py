@@ -71,3 +71,13 @@ select_box = st.selectbox('What skill you want to learn the most? ',
                           ('Java', 'Python', 'C++', 'javascript', 'HTML', 'Other'))
 
 st.write('You selected =', select_box)
+
+st.markdown('---')
+
+# Multi-select widget
+st.header('st.multiselect')
+
+options = st.multiselect('What kinds of movies do you like? ',
+                         ['Comedy', 'Action', 'Sci-fi', 'Drama', 'Romance'])
+
+st.write('You selected ', options)
