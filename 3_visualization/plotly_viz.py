@@ -39,4 +39,12 @@ color_option = st.selectbox('Select a column to color by',
 fig = px.scatter(data_frame=df, x='total_bill', y='tip', color=color_option)
 st.plotly_chart(fig, key='chart3')
 
-# 5. Draw a Sunburts Chart on features ('sex', 'smoker', 'day', 'time')
+# 5. Draw a Sunburst Chart on features ('sex', 'smoker', 'day', 'time')
+st.markdown('---')
+st.subheader('5. Draw a Sunburts Chart on features (sex, smoker, day, time)')
+
+path = st.multiselect('Select the categorical feature path',
+                     ('sex', 'smoker', 'day', 'time'))
+
+fig = px.sunburst(data_frame=df, path=path)
+st.plotly_chart(fig, key='chart4')
