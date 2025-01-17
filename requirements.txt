@@ -1,12 +1,12 @@
-numpy
+numpy==1.23.1
 pandas
 scipy
 scikit-learn
-matplotlib
+matplotlib==3.7.0
 seaborn
 plotly
 altair
-bokeh
+bokeh==2.4.3
 pillow
 opencv-python
 jupyter
