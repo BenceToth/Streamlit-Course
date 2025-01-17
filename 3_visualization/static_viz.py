@@ -109,5 +109,6 @@ st.markdown('---')
 with st.container():
     st.header('4. Find the relationship between total_bill and tip over time (scatter plot)')
     fig, ax = plt.subplots()
-    sns.scatterplot(x='total_bill', y='tip', hue='time', ax=ax, data=df)
+    hue_type = st.selectbox('Select the feature to hue', cat_cols)
+    sns.scatterplot(x='total_bill', y='tip', hue=hue_type, ax=ax, data=df)
     st.pyplot(fig)
