@@ -69,19 +69,39 @@ with st.container():
     st.pyplot(fig)
 
 st.markdown('---')
-## 3. Find the distribution of average total_bill across each day by males and females
+## 3. Find the distribution of average total_bill across categorical features
 with st.container():
-    st.header('3. Find the distribution of average total_bill across each day by males and females')
+    st.header('3. Find the distribution of average total_bill across categorical features')
     
-    features_to_groupby = ['day', 'sex']
+    c1, c2, c3 = st.columns(3)
+    
+    with c1:
+        group_cols = st.multiselect(label='Select features', options=cat_cols, default=cat_cols[0])
+        n_features = len(group_cols)
+    with c2:
+        chart_type = st.selectbox('Select a chart type', ['bar', 'area', 'line'])
+    with c3:
+        stack_option = st.radio('Stack?', ('Yes', 'No'))
+        if stack_option == 'Yes':
+            is_stacked = True
+        else:
+            is_stacked = False
+        
     feature_to_avg = ['total_bill']
-    avg_total_bill = df.groupby(features_to_groupby)[feature_to_avg].mean()
-    avg_total_bill = avg_total_bill.unstack()
+    avg_total_bill = df.groupby(group_cols)[feature_to_avg].mean()
+    
+    if n_features > 1:
+        for i in range(n_features-1):
+            avg_total_bill = avg_total_bill.unstack(fill_value=0)
     
     # Visualize
     fig, ax = plt.subplots()
-    avg_total_bill.plot(kind='bar', ax=ax)
+    avg_total_bill.plot(kind=chart_type, ax=ax, stacked=is_stacked)
     ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
+    ax.set_ylabel('Avg Total Bill')
     st.pyplot(fig)
+
+    with st.expander('Click here to display values'):
+        st.dataframe(avg_total_bill)
 
 ## 4. Find the relationship between total_bill and tip over time (scatter plot)
