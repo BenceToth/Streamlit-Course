@@ -68,5 +68,20 @@ with st.container():
 
     st.pyplot(fig)
 
+st.markdown('---')
 ## 3. Find the distribution of average total_bill across each day by males and females
+with st.container():
+    st.header('3. Find the distribution of average total_bill across each day by males and females')
+    
+    features_to_groupby = ['day', 'sex']
+    feature_to_avg = ['total_bill']
+    avg_total_bill = df.groupby(features_to_groupby)[feature_to_avg].mean()
+    avg_total_bill = avg_total_bill.unstack()
+    
+    # Visualize
+    fig, ax = plt.subplots()
+    avg_total_bill.plot(kind='bar', ax=ax)
+    ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
+    st.pyplot(fig)
+
 ## 4. Find the relationship between total_bill and tip over time (scatter plot)
