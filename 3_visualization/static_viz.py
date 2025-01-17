@@ -104,4 +104,10 @@ with st.container():
     with st.expander('Click here to display values'):
         st.dataframe(avg_total_bill)
 
+st.markdown('---')
 ## 4. Find the relationship between total_bill and tip over time (scatter plot)
+with st.container():
+    st.header('4. Find the relationship between total_bill and tip over time (scatter plot)')
+    fig, ax = plt.subplots()
+    sns.scatterplot(x='total_bill', y='tip', hue='time', ax=ax, data=df)
+    st.pyplot(fig)
