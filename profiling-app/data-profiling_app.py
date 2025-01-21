@@ -7,6 +7,14 @@ import os
 
 st.set_page_config(page_title='Data Profiler', page_icon=':bar_chart:', layout='wide', initial_sidebar_state='expanded')
 
+def validate_file(file):
+    filename = file.name
+    name, ext = os.path.splitext(filename)
+    if ext in ('.csv', '.xlsx'):
+        return ext
+    else:
+        False
+
 # Sidebar
 with st.sidebar:
     uploaded_file = st.file_uploader('Upload a .csv or .xlsx file (not exceeding 10 MB)', type=['csv', 'xlsx'], accept_multiple_files=False)
@@ -27,13 +35,25 @@ with st.sidebar:
             primary_colors = ['blue']
     
 if uploaded_file is not None:
-    # Load .csv file
-    df = pd.read_csv(uploaded_file)
+    # validate extension
+    ext = validate_file(uploaded_file)
     
-    # Generate report
-    with st.spinner('Generating Report...'):
-        pr = ProfileReport(df, minimal=minimal,
-                           html={'style': {'theme': theme,
-                                           'primary_colors': primary_colors}})
-        
-    st_profile_report(pr)
+    # Load .csv file
+    if ext:
+        if ext == '.csv':
+            df = pd.read_csv(uploaded_file)
+        else:
+            xl_file = pd.ExcelFile(uploaded_file)
+            sheet_tuple = tuple(xl_file.sheet_names)
+            sheet_name = st.sidebar.selectbox('Select the sheet', sheet_tuple)
+            df = xl_file.parse(sheet_name)
+    
+        # Generate report
+        with st.spinner('Generating Report...'):
+            pr = ProfileReport(df, minimal=minimal,
+                            html={'style': {'theme': theme,
+                                            'primary_colors': primary_colors}})
+            
+        st_profile_report(pr)
+    else:
+        st.error('Please only upload an .csv or .xlsx file!')
