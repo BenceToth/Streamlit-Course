@@ -14,6 +14,11 @@ def validate_file(file):
         return ext
     else:
         False
+        
+def get_filesize(file):
+    size_bytes = sys.getsizeof(file)
+    size_mb = size_bytes / (1024**2)
+    return size_mb
 
 # Sidebar
 with st.sidebar:
@@ -40,20 +45,28 @@ if uploaded_file is not None:
     
     # Load .csv file
     if ext:
-        if ext == '.csv':
-            df = pd.read_csv(uploaded_file)
+        file_size = get_filesize(uploaded_file)
+        
+        if file_size <= 10:        
+            if ext == '.csv':
+                df = pd.read_csv(uploaded_file)
+            else:
+                xl_file = pd.ExcelFile(uploaded_file)
+                sheet_tuple = tuple(xl_file.sheet_names)
+                sheet_name = st.sidebar.selectbox('Select the sheet', sheet_tuple)
+                df = xl_file.parse(sheet_name)
+        
+            # Generate report
+            with st.spinner('Generating Report...'):
+                pr = ProfileReport(df, minimal=minimal,
+                                html={'style': {'theme': theme,
+                                                'primary_colors': primary_colors}})
+                
+            st_profile_report(pr)
         else:
-            xl_file = pd.ExcelFile(uploaded_file)
-            sheet_tuple = tuple(xl_file.sheet_names)
-            sheet_name = st.sidebar.selectbox('Select the sheet', sheet_tuple)
-            df = xl_file.parse(sheet_name)
-    
-        # Generate report
-        with st.spinner('Generating Report...'):
-            pr = ProfileReport(df, minimal=minimal,
-                            html={'style': {'theme': theme,
-                                            'primary_colors': primary_colors}})
-            
-        st_profile_report(pr)
+            st.error('File size exceeds the limit of 10 MB! Your file size is {:.2f} MB'.format(file_size))
     else:
         st.error('Please only upload an .csv or .xlsx file!')
+else:
+    st.title('Data Profiler')
+    st.info('Upload your file using the left side bar to generate a data profiling report.')
